@@ -1,5 +1,7 @@
 package com.ycr.jse.frame;
 
+import com.ycr.jse.Tank;
+
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -7,20 +9,15 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class TankFrame extends Frame {
-    int x = 200;
-    int y = 200;
-    boolean first = true;
-    boolean bl = false;
-    boolean br = false;
-    boolean bu = false;
-    boolean bd = false;
+
+    private Tank tank;
 
     public TankFrame(){
         setSize(800,600);
         setResizable(false);
         setTitle("ycr go!");
         setVisible(true);
-
+        this.tank = new Tank(200,200,Dir.DOWN,true);
         this.addKeyListener(new MyKeyListener());
         this.addWindowListener(
                 new WindowAdapter() {
@@ -36,26 +33,16 @@ public class TankFrame extends Frame {
     @Override
     public void paint(Graphics g) {
         System.out.println("paint");
-        if (first){
-            first = false;
-        }else {
-            if (bl){
-                x -= 10;
-            }
-            if (br){
-                x += 10;
-            }
-            if (bu){
-                y -= 10;
-            }
-            if (bd){
-                y += 10;
-            }
-        }
-        g.fillRect(x,y,50,50);
+        tank.paint(g);
+
     }
 
     class MyKeyListener extends KeyAdapter{
+        boolean bl = false;
+        boolean br = false;
+        boolean bu = false;
+        boolean bd = false;
+
         @Override
         public void keyPressed(KeyEvent e) {
             int keyCode = e.getKeyCode();
@@ -75,7 +62,7 @@ public class TankFrame extends Frame {
                 default:
                     break;
             }
-            repaint();
+            setDir();
 
 
         }
@@ -99,6 +86,25 @@ public class TankFrame extends Frame {
                 default:
                     break;
             }
+            setDir();
+        }
+
+
+        public void setDir(){
+            if (!bl && !br && !bu && !bd){
+                tank.setStop(true);
+            }else {
+                tank.setStop(false);
+                if (bl) tank.setDir(Dir.LEFT);
+                if (br) tank.setDir(Dir.RIGHT);
+                if (bu) tank.setDir(Dir.UP);
+                if (bd) tank.setDir(Dir.DOWN);
+            }
+
+
         }
     }
+
+
+
 }

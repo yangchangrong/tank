@@ -14,14 +14,14 @@ public class App
     public static void main( String[] args )
     {
         TankFrame tf = new TankFrame();
-//        System.out.println( "Hello World!" );
-//        while (true){
-//            try {
-//                Thread.sleep(1000);
-//                tf.repaint();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
+        System.out.println( "Hello World!" );
+        while (true){
+            try {
+                Thread.sleep(50);
+                tf.repaint();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
