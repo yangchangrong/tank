@@ -1,5 +1,6 @@
 package com.ycr.jse.frame;
 
+import com.ycr.jse.Bullet;
 import com.ycr.jse.Tank;
 
 import java.awt.*;
@@ -11,6 +12,7 @@ import java.awt.event.WindowEvent;
 public class TankFrame extends Frame {
 
     private Tank tank;
+    private Bullet bullet;
 
     public TankFrame(){
         setSize(800,600);
@@ -18,6 +20,7 @@ public class TankFrame extends Frame {
         setTitle("ycr go!");
         setVisible(true);
         this.tank = new Tank(200,200,Dir.DOWN,true);
+        this.bullet = new Bullet(300,300,Dir.DOWN);
         this.addKeyListener(new MyKeyListener());
         this.addWindowListener(
                 new WindowAdapter() {
@@ -32,8 +35,9 @@ public class TankFrame extends Frame {
 
     @Override
     public void paint(Graphics g) {
-        System.out.println("paint");
+//        System.out.println("paint");
         tank.paint(g);
+        bullet.paint(g);
 
     }
 
