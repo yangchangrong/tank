@@ -1,5 +1,10 @@
 package com.ycr.jse;
 
+import com.ycr.jse.frame.TankFrame;
+
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 /**
  * Hello world!
  *
@@ -8,7 +13,15 @@ public class App
 {
     public static void main( String[] args )
     {
-
-        System.out.println( "Hello World!" );
+        TankFrame tf = new TankFrame();
+//        System.out.println( "Hello World!" );
+//        while (true){
+//            try {
+//                Thread.sleep(1000);
+//                tf.repaint();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 }
