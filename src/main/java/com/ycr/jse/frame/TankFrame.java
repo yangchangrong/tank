@@ -8,18 +8,22 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TankFrame extends Frame {
 
     private Tank tank;
-    private Bullet bullet;
 
-    public void setBullet(Bullet bullet) {
-        this.bullet = bullet;
+    public List<Bullet> getBullets() {
+        return bullets;
     }
 
-    private static final int GAME_WIDTH = 800;
-    private static final int GAME_HEIGHT = 600;
+    private List<Bullet> bullets = new ArrayList<>();
+
+
+    public static final int GAME_WIDTH = 800;
+    public static final int GAME_HEIGHT = 600;
 
     public TankFrame(){
         setSize(GAME_WIDTH,GAME_HEIGHT);
@@ -27,7 +31,6 @@ public class TankFrame extends Frame {
         setTitle("ycr go!");
         setVisible(true);
         this.tank = new Tank(200,200,Dir.DOWN,true,this);
-        this.bullet = new Bullet(300,300,Dir.DOWN);
         this.addKeyListener(new MyKeyListener());
         this.addWindowListener(
                 new WindowAdapter() {
@@ -52,13 +55,22 @@ public class TankFrame extends Frame {
         graphics.setColor(c);
         paint(graphics);
         g.drawImage(offScreenImage, 0, 0, null);
+
     }
 
     @Override
     public void paint(Graphics g) {
         System.out.println("paint");
+        Color c = g.getColor();
+        g.setColor(Color.WHITE);
+        g.drawString("子弹的数目" + bullets.size(),10,60);
+        g.setColor(c);
+
         tank.paint(g);
-        bullet.paint(g);
+        for (int i = 0; i < bullets.size(); i++){
+            bullets.get(i).paint(g);
+
+        }
 
     }
 
