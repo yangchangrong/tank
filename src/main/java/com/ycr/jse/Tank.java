@@ -1,6 +1,7 @@
 package com.ycr.jse;
 
 import com.ycr.jse.frame.Dir;
+import com.ycr.jse.frame.TankFrame;
 
 import java.awt.*;
 
@@ -13,6 +14,7 @@ public class Tank {
     private int y = 200;
     private Dir dir = Dir.DOWN;
     private boolean stop = true;
+    private TankFrame tankFrame;
 
     public void setStop(boolean stop) {
         this.stop = stop;
@@ -20,15 +22,23 @@ public class Tank {
 
     private static int SPEED = 10;
 
-    public Tank(int x, int y, Dir dir,boolean stop) {
+    public Tank(int x, int y, Dir dir,boolean stop,TankFrame tankFrame) {
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.stop = stop;
+        this.tankFrame = tankFrame;
     }
 
     public void paint(Graphics g){
+        Color c = g.getColor();
+        g.setColor(Color.YELLOW);
         g.fillRect(x, y, 50, 50);
+        g.setColor(c);
+        move();
+    }
+
+    private void move() {
         if (!stop){
             switch (dir) {
                 case UP:
@@ -44,13 +54,27 @@ public class Tank {
                     x += SPEED;
                     break;
             }
-        }else {
-            return;
         }
-
     }
 
     public void setDir(Dir dir) {
         this.dir = dir;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public Dir getDir() {
+        return dir;
+    }
+
+
+    public void fire() {
+        tankFrame.setBullet(new Bullet(this.x,this.y,this.dir));
     }
 }

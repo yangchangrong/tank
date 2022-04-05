@@ -14,12 +14,19 @@ public class TankFrame extends Frame {
     private Tank tank;
     private Bullet bullet;
 
+    public void setBullet(Bullet bullet) {
+        this.bullet = bullet;
+    }
+
+    private static final int GAME_WIDTH = 800;
+    private static final int GAME_HEIGHT = 600;
+
     public TankFrame(){
-        setSize(800,600);
+        setSize(GAME_WIDTH,GAME_HEIGHT);
         setResizable(false);
         setTitle("ycr go!");
         setVisible(true);
-        this.tank = new Tank(200,200,Dir.DOWN,true);
+        this.tank = new Tank(200,200,Dir.DOWN,true,this);
         this.bullet = new Bullet(300,300,Dir.DOWN);
         this.addKeyListener(new MyKeyListener());
         this.addWindowListener(
@@ -32,10 +39,24 @@ public class TankFrame extends Frame {
         );
     }
 
+    Image offScreenImage = null;
+    @Override
+    public void update(Graphics g) {
+        if (null == offScreenImage) {
+            offScreenImage = this.createImage(GAME_WIDTH, GAME_HEIGHT);
+        }
+        Graphics graphics = offScreenImage.getGraphics();
+        Color c = graphics.getColor();
+        graphics.setColor(Color.BLACK);
+        graphics.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+        graphics.setColor(c);
+        paint(graphics);
+        g.drawImage(offScreenImage, 0, 0, null);
+    }
 
     @Override
     public void paint(Graphics g) {
-//        System.out.println("paint");
+        System.out.println("paint");
         tank.paint(g);
         bullet.paint(g);
 
@@ -50,6 +71,7 @@ public class TankFrame extends Frame {
         @Override
         public void keyPressed(KeyEvent e) {
             int keyCode = e.getKeyCode();
+            //监听上下左右键
             switch (keyCode){
                 case KeyEvent.VK_LEFT:
                     bl = true;
@@ -62,6 +84,10 @@ public class TankFrame extends Frame {
                     break;
                 case KeyEvent.VK_DOWN:
                     bd = true;
+                    break;
+                case KeyEvent.VK_SPACE:
+                    //监听space键盘,press一下发射一课子弹
+                    tank.fire();
                     break;
                 default:
                     break;
