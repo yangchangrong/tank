@@ -27,11 +27,31 @@ public class Bullet {
     }
 
     public void paint(Graphics g) {
-        Color c = g.getColor();
-        g.setColor(Color.RED);
-        g.fillOval(x,y,WIDTH,WIDTH);
-        g.setColor(c);
-        move(g, c);
+//        Color c = g.getColor();
+//        g.setColor(Color.RED);
+//        g.fillOval(x,y,WIDTH,WIDTH);
+//        g.setColor(c);
+        Image image = null;
+        switch (dir){
+            case LEFT:
+                image = ResourceManager.bulletL;
+                break;
+            case RIGHT:
+                image = ResourceManager.bulletR;
+                break;
+            case UP:
+                image = ResourceManager.bulletU;
+                break;
+            case DOWN:
+                image = ResourceManager.bulletD;
+                break;
+            default:
+                break;
+
+        }
+
+        g.drawImage(image,x,y,null);
+        move(g);
 
     }
 
@@ -40,11 +60,10 @@ public class Bullet {
      * @param g
      * @param c
      */
-    private void move(Graphics g, Color c) {
+    private void move(Graphics g) {
         if (!this.living){
             tankFrame.getBullets().remove(this);
         }
-        g.setColor(c);
         switch (dir) {
             case UP:
                 y -= SPEED;

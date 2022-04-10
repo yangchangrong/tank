@@ -31,10 +31,27 @@ public class Tank {
     }
 
     public void paint(Graphics g){
-        Color c = g.getColor();
-        g.setColor(Color.YELLOW);
-        g.fillRect(x, y, 50, 50);
-        g.setColor(c);
+//        g.setColor(Color.YELLOW);
+//        g.fillRect(x, y, 50, 50);
+        Image image = null;
+        switch (dir) {
+            case UP:
+                image = ResourceManager.tankU;
+                break;
+            case DOWN:
+                image = ResourceManager.tankD;
+                break;
+            case LEFT:
+                image = ResourceManager.tankL;
+                break;
+            case RIGHT:
+                image = ResourceManager.tankR;
+                break;
+            default:
+                break;
+
+        }
+        g.drawImage(image,x,y,null);
         move();
     }
 
@@ -52,6 +69,8 @@ public class Tank {
                     break;
                 case RIGHT:
                     x += SPEED;
+                    break;
+                default:
                     break;
             }
         }
@@ -75,6 +94,9 @@ public class Tank {
 
 
     public void fire() {
-        tankFrame.getBullets().add(new Bullet(this.x,this.y,this.dir,this.tankFrame));
+        //设置子弹和坦克的相对位置
+        int bulletX = this.x + ResourceManager.tankD.getWidth()/2;
+        int bullety = this.y + ResourceManager.tankD.getHeight()/2;
+        tankFrame.getBullets().add(new Bullet(bulletX,bullety,this.dir,this.tankFrame));
     }
 }
