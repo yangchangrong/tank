@@ -15,7 +15,7 @@ public class App
     public static void main( String[] args )
     {
         TankFrame tf = new TankFrame();
-        int initEnemyTankCount = ConfigManager.getInt("initEnemyTankCount");
+        int initEnemyTankCount = ConfigManager.INSTANCE.getInt("initEnemyTankCount");
         //添加敌人
         for (int i = 0; i < initEnemyTankCount; i++) {
 //            int dirNum = (int)(Math.random() * 4);

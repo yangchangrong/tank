@@ -10,7 +10,7 @@ import java.awt.*;
  */
 public class Bullet {
 
-    private static final int SPEED = ConfigManager.getInt("bulletSpeed");
+    private static final int SPEED = ConfigManager.INSTANCE.getInt("bulletSpeed");
     public static final int WIDTH = ResourceManager.bulletD.getWidth();
     public static final int HEIGHT = ResourceManager.bulletD.getHeight();
 

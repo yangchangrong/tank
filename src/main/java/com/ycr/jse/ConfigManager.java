@@ -5,9 +5,10 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Properties;
 
-public class ConfigManager {
-    public static Properties properties = new Properties();
-
+public enum ConfigManager {
+    //单例模式
+    INSTANCE;
+    private static Properties properties = new Properties();
 
     static {
         try {
@@ -17,7 +18,7 @@ public class ConfigManager {
         }
     }
 
-    public static int getInt(String key){
+    public int getInt(String key){
         return Integer.parseInt((String)properties.get(key));
     }
 
