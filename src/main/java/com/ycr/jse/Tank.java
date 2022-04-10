@@ -15,12 +15,15 @@ public class Tank {
     private Dir dir = Dir.DOWN;
     private boolean stop = true;
     private TankFrame tankFrame;
+    private boolean living = true;
 
     public void setStop(boolean stop) {
         this.stop = stop;
     }
 
     private static int SPEED = 10;
+    public static final int WIDTH = ResourceManager.tankD.getWidth();
+    public static final int HEIGHT = ResourceManager.tankD.getHeight();
 
     public Tank(int x, int y, Dir dir,boolean stop,TankFrame tankFrame) {
         this.x = x;
@@ -33,6 +36,9 @@ public class Tank {
     public void paint(Graphics g){
 //        g.setColor(Color.YELLOW);
 //        g.fillRect(x, y, 50, 50);
+        if (!living){
+            this.tankFrame.getEnemyTanks().remove(this);
+        }
         Image image = null;
         switch (dir) {
             case UP:
@@ -95,8 +101,12 @@ public class Tank {
 
     public void fire() {
         //设置子弹和坦克的相对位置
-        int bulletX = this.x + ResourceManager.tankD.getWidth()/2;
-        int bullety = this.y + ResourceManager.tankD.getHeight()/2;
+        int bulletX = this.x + WIDTH/2;
+        int bullety = this.y + HEIGHT/2;
         tankFrame.getBullets().add(new Bullet(bulletX,bullety,this.dir,this.tankFrame));
+    }
+
+    public void die() {
+        this.living = false;
     }
 }

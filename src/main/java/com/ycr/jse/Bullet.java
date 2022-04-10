@@ -58,7 +58,6 @@ public class Bullet {
     /**
      * 移动
      * @param g
-     * @param c
      */
     private void move(Graphics g) {
         if (!this.living){
@@ -85,5 +84,20 @@ public class Bullet {
 
     public void setDir(Dir dir) {
         this.dir = dir;
+    }
+
+    //判断相撞
+    public void collideWith(Tank tank) {
+        Rectangle bulletRect = new Rectangle(this.x,this.y,WIDTH,HEIGHT);
+        Rectangle tankRect = new Rectangle(tank.getX(),tank.getY(),Tank.WIDTH,Tank.HEIGHT);
+        if (bulletRect.intersects(tankRect)){
+            //坦克和子弹都必须die
+            tank.die();
+            this.die();
+        }
+    }
+
+    private void die() {
+        this.living = false;
     }
 }

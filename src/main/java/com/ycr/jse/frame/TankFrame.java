@@ -13,24 +13,31 @@ import java.util.List;
 
 public class TankFrame extends Frame {
 
-    private Tank tank;
+    private Tank myTank;
+    private List<Bullet> bullets = new ArrayList<>();
+    private List<Tank> enemyTanks = new ArrayList<>();
+    public static final int GAME_WIDTH = 800;
+    public static final int GAME_HEIGHT = 600;
+
+    public List<Tank> getEnemyTanks() {
+        return enemyTanks;
+    }
+
+    public void setEnemyTanks(List<Tank> enemyTanks) {
+        this.enemyTanks = enemyTanks;
+    }
 
     public List<Bullet> getBullets() {
         return bullets;
     }
 
-    private List<Bullet> bullets = new ArrayList<>();
-
-
-    public static final int GAME_WIDTH = 800;
-    public static final int GAME_HEIGHT = 600;
 
     public TankFrame(){
         setSize(GAME_WIDTH,GAME_HEIGHT);
         setResizable(false);
         setTitle("ycr go!");
         setVisible(true);
-        this.tank = new Tank(200,200,Dir.DOWN,true,this);
+        this.myTank = new Tank(400,400,Dir.DOWN,true,this);
         this.addKeyListener(new MyKeyListener());
         this.addWindowListener(
                 new WindowAdapter() {
@@ -64,12 +71,23 @@ public class TankFrame extends Frame {
         Color c = g.getColor();
         g.setColor(Color.WHITE);
         g.drawString("子弹的数目" + bullets.size(),10,60);
+        g.drawString("敌人的数目" + enemyTanks.size(),10,80);
         g.setColor(c);
-
-        tank.paint(g);
+        //画敌人坦克
+        for (Tank enemyTank : enemyTanks) {
+            enemyTank.paint(g);
+        }
+        //画自己坦克
+        myTank.paint(g);
+        //画子弹
         for (int i = 0; i < bullets.size(); i++){
             bullets.get(i).paint(g);
-
+        }
+        //判断自己的子弹和敌人坦克相撞
+        for (int i = 0; i < bullets.size(); i++) {
+            for (int j = 0; j < enemyTanks.size(); j++) {
+                bullets.get(i).collideWith(enemyTanks.get(j));
+            }
         }
 
     }
@@ -99,7 +117,7 @@ public class TankFrame extends Frame {
                     break;
                 case KeyEvent.VK_SPACE:
                     //监听space键盘,press一下发射一课子弹
-                    tank.fire();
+                    myTank.fire();
                     break;
                 default:
                     break;
@@ -134,13 +152,13 @@ public class TankFrame extends Frame {
 
         public void setDir(){
             if (!bl && !br && !bu && !bd){
-                tank.setStop(true);
+                myTank.setStop(true);
             }else {
-                tank.setStop(false);
-                if (bl) tank.setDir(Dir.LEFT);
-                if (br) tank.setDir(Dir.RIGHT);
-                if (bu) tank.setDir(Dir.UP);
-                if (bd) tank.setDir(Dir.DOWN);
+                myTank.setStop(false);
+                if (bl) myTank.setDir(Dir.LEFT);
+                if (br) myTank.setDir(Dir.RIGHT);
+                if (bu) myTank.setDir(Dir.UP);
+                if (bd) myTank.setDir(Dir.DOWN);
             }
 
 
