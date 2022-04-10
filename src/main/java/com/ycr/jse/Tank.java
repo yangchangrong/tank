@@ -83,14 +83,51 @@ public class Tank {
                     break;
             }
         }
-        //每移动一次开火
-        if (Math.random() * 10 > 8){
-            fire();
+        //敌方坦克
+        if (Group.BAD.equals(this.group)){
+            //移动过程中发射子弹20%概率
+            if ((int)(Math.random() * 10) > 8){
+                fire();
+            }
+            //随机方向
+            randomDir();
+            //对敌方坦克进行边界控制
+            if (x < 0 || y < 0 || x > TankFrame.GAME_WIDTH - WIDTH || y > TankFrame.GAME_HEIGHT - HEIGHT){
+                setReverseDir(dir);
+            }
+
         }
+
+    }
+
+    private void randomDir() {
+        if ((int)(Math.random() * 100) > 95){
+            this.dir = Dir.values()[(int)(Math.random() * 4)];
+        }
+
     }
 
     public void setDir(Dir dir) {
         this.dir = dir;
+    }
+    //设置反方向
+    public void setReverseDir(Dir dir) {
+        switch (dir){
+            case DOWN:
+                this.dir = Dir.UP;
+                break;
+            case UP:
+                this.dir = Dir.DOWN;
+                break;
+            case LEFT:
+                this.dir = Dir.RIGHT;
+                break;
+            case RIGHT:
+                this.dir = Dir.LEFT;
+                break;
+            default:
+                break;
+        }
     }
 
     public int getX() {

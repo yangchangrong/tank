@@ -10,8 +10,8 @@ import java.awt.*;
  */
 public class Explode {
 
-    private static final int WIDTH = ResourceManager.explodes[0].getWidth();
-    private static final int HEIGHT = ResourceManager.explodes[0].getHeight();
+    public static final int WIDTH = ResourceManager.explodes[0].getWidth();
+    public static final int HEIGHT = ResourceManager.explodes[0].getHeight();
 
     private  int x,y;
     private boolean living = true;
@@ -22,14 +22,25 @@ public class Explode {
         this.x = x;
         this.y = y;
         this.tankFrame = tankFrame;
+        //增加爆炸声(通过开启新的线程，提升性能)
+        new Thread(()->new Audio("audio/explode.wav").play()).start();
     }
 
 
     public void paint(Graphics g) {
+        if (!living){
+            this.tankFrame.getExplodes().remove(this);
+            return;
+        }
         g.drawImage(ResourceManager.explodes[step++], x, y, null);
         if (step >= ResourceManager.explodes.length){
-            step = 0;
+            die();
         }
+
+    }
+
+    public void die(){
+        this.living = false;
     }
 
 

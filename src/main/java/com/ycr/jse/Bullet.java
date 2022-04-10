@@ -10,7 +10,7 @@ import java.awt.*;
  */
 public class Bullet {
 
-    private static final int SPEED = 2;
+    private static final int SPEED = 20;
     private static final int WIDTH = 10;
     private static final int HEIGHT = 10;
 
@@ -112,5 +112,10 @@ public class Bullet {
 
     private void die() {
         this.living = false;
+        //每课子弹die都创建爆炸
+        int explodeX = this.x - Explode.WIDTH/2;
+        int explodeY = this.y - Explode.HEIGHT/2;
+        tankFrame.getExplodes().add(new Explode(explodeX,explodeY,tankFrame));
+
     }
 }

@@ -17,7 +17,9 @@ public class App
         TankFrame tf = new TankFrame();
         //添加敌人
         for (int i = 0; i < 5; i++) {
-            tf.getEnemyTanks().add(new Tank(200 + 50 * i,200, Dir.DOWN,true,tf,Group.BAD));
+//            int dirNum = (int)(Math.random() * 4);
+//            Dir initDir = Dir.values()[dirNum];
+            tf.getEnemyTanks().add(new Tank(200 + 50 * i,200, Dir.DOWN,false,tf,Group.BAD));
         }
         System.out.println( "Hello World!" );
         while (true){
@@ -29,4 +31,5 @@ public class App
             }
         }
     }
+
 }

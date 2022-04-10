@@ -15,19 +15,26 @@ import java.util.List;
 
 public class TankFrame extends Frame {
 
-    private Tank myTank;
+    private Tank myTank = new Tank(400,400,Dir.DOWN,true,this, Group.GOOD);
     private List<Bullet> bullets = new ArrayList<>();
     private List<Tank> enemyTanks = new ArrayList<>();
-    private Explode explode;
-    public static final int GAME_WIDTH = 800;
-    public static final int GAME_HEIGHT = 600;
+    private List<Explode> explodes = new ArrayList<>();
+    public static final int GAME_WIDTH = 1036;
+    public static final int GAME_HEIGHT = 768;
 
     public List<Tank> getEnemyTanks() {
         return enemyTanks;
     }
-
     public void setEnemyTanks(List<Tank> enemyTanks) {
         this.enemyTanks = enemyTanks;
+    }
+
+    public List<Explode> getExplodes() {
+        return explodes;
+    }
+
+    public void setExplodes(List<Explode> explodes) {
+        this.explodes = explodes;
     }
 
     public List<Bullet> getBullets() {
@@ -40,8 +47,6 @@ public class TankFrame extends Frame {
         setResizable(false);
         setTitle("ycr go!");
         setVisible(true);
-        this.myTank = new Tank(400,400,Dir.DOWN,true,this, Group.GOOD);
-        this.explode = new Explode(300,300,this);
         this.addKeyListener(new MyKeyListener());
         this.addWindowListener(
                 new WindowAdapter() {
@@ -76,16 +81,22 @@ public class TankFrame extends Frame {
         g.setColor(Color.WHITE);
         g.drawString("子弹的数目" + bullets.size(),10,60);
         g.drawString("敌人的数目" + enemyTanks.size(),10,80);
+        g.drawString("爆炸的数目" + explodes.size(),10,100);
         g.setColor(c);
         //画敌人坦克
-        for (Tank enemyTank : enemyTanks) {
-            enemyTank.paint(g);
+        for (int j = 0; j < enemyTanks.size(); j++) {
+            enemyTanks.get(j).paint(g);
         }
+
         //画自己坦克
         myTank.paint(g);
         //画子弹
         for (int i = 0; i < bullets.size(); i++){
             bullets.get(i).paint(g);
+        }
+        //画爆炸
+        for (int i = 0; i < explodes.size(); i++) {
+            explodes.get(i).paint(g);
         }
         //判断自己的子弹和敌人坦克相撞
         for (int i = 0; i < bullets.size(); i++) {
@@ -93,8 +104,7 @@ public class TankFrame extends Frame {
                 bullets.get(i).collideWith(enemyTanks.get(j));
             }
         }
-        //画爆炸
-        explode.paint(g);
+
 
 
     }
