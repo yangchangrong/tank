@@ -4,6 +4,7 @@ import com.ycr.jse.Bullet;
 import com.ycr.jse.Explode;
 import com.ycr.jse.Group;
 import com.ycr.jse.Tank;
+import com.ycr.jse.strategy.OneBulletFire;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -134,7 +135,7 @@ public class TankFrame extends Frame {
                     break;
                 case KeyEvent.VK_SPACE:
                     //监听space键盘,press一下发射一课子弹
-                    myTank.fire();
+                    myTank.fire(new OneBulletFire());
                     break;
                 default:
                     break;

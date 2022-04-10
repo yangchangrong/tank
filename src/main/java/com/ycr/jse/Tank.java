@@ -2,6 +2,8 @@ package com.ycr.jse;
 
 import com.ycr.jse.frame.Dir;
 import com.ycr.jse.frame.TankFrame;
+import com.ycr.jse.strategy.FireStrategy;
+import com.ycr.jse.strategy.OneBulletFire;
 
 import java.awt.*;
 
@@ -123,7 +125,7 @@ public class Tank {
         if (Group.BAD.equals(this.group)){
             //移动过程中发射子弹20%概率
             if ((int)(Math.random() * 10) > 8){
-                fire();
+                fire(new OneBulletFire());
             }
             //随机方向
             randomDir();
@@ -186,14 +188,19 @@ public class Tank {
         this.group = group;
     }
 
-    public void fire() {
+    public void fire(FireStrategy fireStrategy) {
         //设置子弹和坦克的相对位置
-        int bulletX = this.x + WIDTH/2 - Bullet.WIDTH/2;
-        int bullety = this.y + HEIGHT/2 - Bullet.HEIGHT/2;;
-        tankFrame.getBullets().add(new Bullet(bulletX,bullety,this.dir,this.tankFrame,this.group));
+//        int bulletX = this.x + WIDTH/2 - Bullet.WIDTH/2;
+//        int bullety = this.y + HEIGHT/2 - Bullet.HEIGHT/2;
+        //策略模式一
+        tankFrame.getBullets().addAll(fireStrategy.fire(this));
     }
 
     public void die() {
         this.living = false;
+    }
+
+    public TankFrame getTankFrame() {
+        return tankFrame;
     }
 }
