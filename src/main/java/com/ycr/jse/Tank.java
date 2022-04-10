@@ -19,7 +19,7 @@ public class Tank {
     private Group group = Group.GOOD;
     private Rectangle ret = new Rectangle();
 
-    private static int SPEED = 10;
+    private static int SPEED = ConfigManager.getInt("tankSpeed");
     public static final int WIDTH = ResourceManager.goodTankD.getWidth();
     public static final int HEIGHT = ResourceManager.goodTankD.getHeight();
 
