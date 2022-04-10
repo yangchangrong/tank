@@ -19,6 +19,7 @@ public class Bullet {
     private boolean living = true;
     private TankFrame tankFrame;
     private Group group = Group.GOOD;
+    private Rectangle ret = new Rectangle();
 
     public Bullet(int x, int y, Dir dir,TankFrame tankFrame,Group group) {
         this.x = x;
@@ -26,6 +27,10 @@ public class Bullet {
         this.dir = dir;
         this.tankFrame = tankFrame;
         this.group = group;
+        ret.x = this.x;
+        ret.y = this.y;
+        ret.width = WIDTH;
+        ret.height = HEIGHT;
     }
 
     public Group getGroup() {
@@ -87,6 +92,9 @@ public class Bullet {
                 x += SPEED;
                 break;
         }
+        //更新rect
+        ret.x = this.x;
+        ret.y = this.y;
         if (x < 0 || y < 0 || x > TankFrame.GAME_WIDTH || y > TankFrame.GAME_HEIGHT){
             this.living = false;
         }
@@ -101,9 +109,7 @@ public class Bullet {
         if (tank.getGroup().equals(this.getGroup())){
             return;
         }
-        Rectangle bulletRect = new Rectangle(this.x,this.y,WIDTH,HEIGHT);
-        Rectangle tankRect = new Rectangle(tank.getX(),tank.getY(),Tank.WIDTH,Tank.HEIGHT);
-        if (bulletRect.intersects(tankRect)){
+        if (this.ret.intersects(tank.getRet())){
             //坦克和子弹都必须die
             tank.die();
             this.die();

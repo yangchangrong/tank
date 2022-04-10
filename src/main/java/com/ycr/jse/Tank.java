@@ -17,6 +17,7 @@ public class Tank {
     private TankFrame tankFrame;
     private boolean living = true;
     private Group group = Group.GOOD;
+    private Rectangle ret = new Rectangle();
 
     private static int SPEED = 10;
     public static final int WIDTH = ResourceManager.goodTankD.getWidth();
@@ -33,6 +34,14 @@ public class Tank {
         this.stop = stop;
         this.tankFrame = tankFrame;
         this.group = group;
+        ret.x = this.x;
+        ret.y = this.y;
+        ret.width = WIDTH;
+        ret.height = HEIGHT;
+    }
+
+    public Rectangle getRet() {
+        return ret;
     }
 
     public void paint(Graphics g){
@@ -107,6 +116,9 @@ public class Tank {
                     break;
             }
         }
+        //更新rect
+        ret.x = this.x;
+        ret.y = this.y;
         //敌方坦克
         if (Group.BAD.equals(this.group)){
             //移动过程中发射子弹20%概率
