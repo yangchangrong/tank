@@ -4,7 +4,6 @@ import com.ycr.jse.frame.Dir;
 import com.ycr.jse.frame.TankFrame;
 
 import java.awt.*;
-import java.util.Random;
 
 /**
  * 坦克类
@@ -118,7 +117,7 @@ public class Tank {
             randomDir();
             //对敌方坦克进行边界控制
             if (x < 0 || y < 0 || x > TankFrame.GAME_WIDTH - WIDTH || y > TankFrame.GAME_HEIGHT - HEIGHT){
-                setReverseDir(dir);
+                boundsCheck(dir);
             }
 
         }
@@ -136,7 +135,7 @@ public class Tank {
         this.dir = dir;
     }
     //设置反方向
-    public void setReverseDir(Dir dir) {
+    public void boundsCheck(Dir dir) {
         switch (dir){
             case DOWN:
                 this.dir = Dir.UP;
@@ -177,8 +176,8 @@ public class Tank {
 
     public void fire() {
         //设置子弹和坦克的相对位置
-        int bulletX = this.x + WIDTH/2;
-        int bullety = this.y + HEIGHT/2;
+        int bulletX = this.x + WIDTH/2 - Bullet.WIDTH/2;
+        int bullety = this.y + HEIGHT/2 - Bullet.HEIGHT/2;;
         tankFrame.getBullets().add(new Bullet(bulletX,bullety,this.dir,this.tankFrame,this.group));
     }
 
