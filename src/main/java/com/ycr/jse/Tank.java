@@ -20,8 +20,8 @@ public class Tank {
     private Group group = Group.GOOD;
 
     private static int SPEED = 10;
-    public static final int WIDTH = ResourceManager.tankD.getWidth();
-    public static final int HEIGHT = ResourceManager.tankD.getHeight();
+    public static final int WIDTH = ResourceManager.goodTankD.getWidth();
+    public static final int HEIGHT = ResourceManager.goodTankD.getHeight();
 
     public void setStop(boolean stop) {
         this.stop = stop;
@@ -43,21 +43,46 @@ public class Tank {
             this.tankFrame.getEnemyTanks().remove(this);
         }
         Image image = null;
-        switch (dir) {
-            case UP:
-                image = ResourceManager.tankU;
+        switch (group){
+            case GOOD:
+                switch (dir) {
+                    case UP:
+                        image = ResourceManager.goodTankU;
+                        break;
+                    case DOWN:
+                        image = ResourceManager.goodTankD;
+                        break;
+                    case LEFT:
+                        image = ResourceManager.goodTankL;
+                        break;
+                    case RIGHT:
+                        image = ResourceManager.goodTankR;
+                        break;
+                    default:
+                        break;
+                }
                 break;
-            case DOWN:
-                image = ResourceManager.tankD;
-                break;
-            case LEFT:
-                image = ResourceManager.tankL;
-                break;
-            case RIGHT:
-                image = ResourceManager.tankR;
+            case BAD:
+                switch (dir) {
+                    case UP:
+                        image = ResourceManager.badTankU;
+                        break;
+                    case DOWN:
+                        image = ResourceManager.badTankD;
+                        break;
+                    case LEFT:
+                        image = ResourceManager.badTankL;
+                        break;
+                    case RIGHT:
+                        image = ResourceManager.badTankR;
+                        break;
+                    default:
+                        break;
+                }
                 break;
             default:
                 break;
+
 
         }
         g.drawImage(image,x,y,null);

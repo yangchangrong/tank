@@ -107,15 +107,14 @@ public class Bullet {
             //坦克和子弹都必须die
             tank.die();
             this.die();
+            //每课子弹die都创建爆炸
+            int explodeX = tank.getX() + Tank.WIDTH/2 - Explode.WIDTH/2;
+            int explodeY = tank.getY() + Tank.HEIGHT/2 - Explode.WIDTH/2;
+            tankFrame.getExplodes().add(new Explode(explodeX,explodeY,tankFrame));
         }
     }
 
     private void die() {
         this.living = false;
-        //每课子弹die都创建爆炸
-        int explodeX = this.x - Explode.WIDTH/2;
-        int explodeY = this.y - Explode.HEIGHT/2;
-        tankFrame.getExplodes().add(new Explode(explodeX,explodeY,tankFrame));
-
     }
 }
