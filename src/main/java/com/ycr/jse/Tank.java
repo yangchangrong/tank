@@ -4,6 +4,7 @@ import com.ycr.jse.frame.Dir;
 import com.ycr.jse.frame.TankFrame;
 
 import java.awt.*;
+import java.util.Random;
 
 /**
  * 坦克类
@@ -16,21 +17,23 @@ public class Tank {
     private boolean stop = true;
     private TankFrame tankFrame;
     private boolean living = true;
-
-    public void setStop(boolean stop) {
-        this.stop = stop;
-    }
+    private Group group = Group.GOOD;
 
     private static int SPEED = 10;
     public static final int WIDTH = ResourceManager.tankD.getWidth();
     public static final int HEIGHT = ResourceManager.tankD.getHeight();
 
-    public Tank(int x, int y, Dir dir,boolean stop,TankFrame tankFrame) {
+    public void setStop(boolean stop) {
+        this.stop = stop;
+    }
+
+    public Tank(int x, int y, Dir dir,boolean stop,TankFrame tankFrame,Group group) {
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.stop = stop;
         this.tankFrame = tankFrame;
+        this.group = group;
     }
 
     public void paint(Graphics g){
@@ -80,6 +83,10 @@ public class Tank {
                     break;
             }
         }
+        //每移动一次开火
+        if (Math.random() * 10 > 8){
+            fire();
+        }
     }
 
     public void setDir(Dir dir) {
@@ -98,12 +105,19 @@ public class Tank {
         return dir;
     }
 
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
 
     public void fire() {
         //设置子弹和坦克的相对位置
         int bulletX = this.x + WIDTH/2;
         int bullety = this.y + HEIGHT/2;
-        tankFrame.getBullets().add(new Bullet(bulletX,bullety,this.dir,this.tankFrame));
+        tankFrame.getBullets().add(new Bullet(bulletX,bullety,this.dir,this.tankFrame,this.group));
     }
 
     public void die() {

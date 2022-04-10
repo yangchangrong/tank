@@ -1,6 +1,8 @@
 package com.ycr.jse.frame;
 
 import com.ycr.jse.Bullet;
+import com.ycr.jse.Explode;
+import com.ycr.jse.Group;
 import com.ycr.jse.Tank;
 
 import java.awt.*;
@@ -16,6 +18,7 @@ public class TankFrame extends Frame {
     private Tank myTank;
     private List<Bullet> bullets = new ArrayList<>();
     private List<Tank> enemyTanks = new ArrayList<>();
+    private Explode explode;
     public static final int GAME_WIDTH = 800;
     public static final int GAME_HEIGHT = 600;
 
@@ -37,7 +40,8 @@ public class TankFrame extends Frame {
         setResizable(false);
         setTitle("ycr go!");
         setVisible(true);
-        this.myTank = new Tank(400,400,Dir.DOWN,true,this);
+        this.myTank = new Tank(400,400,Dir.DOWN,true,this, Group.GOOD);
+        this.explode = new Explode(300,300,this);
         this.addKeyListener(new MyKeyListener());
         this.addWindowListener(
                 new WindowAdapter() {
@@ -89,6 +93,9 @@ public class TankFrame extends Frame {
                 bullets.get(i).collideWith(enemyTanks.get(j));
             }
         }
+        //画爆炸
+        explode.paint(g);
+
 
     }
 
