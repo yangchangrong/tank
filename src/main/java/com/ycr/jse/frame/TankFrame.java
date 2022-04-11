@@ -1,10 +1,8 @@
 package com.ycr.jse.frame;
 
-import com.ycr.jse.Bullet;
-import com.ycr.jse.Explode;
-import com.ycr.jse.Group;
-import com.ycr.jse.Tank;
-import com.ycr.jse.strategy.OneBulletFire;
+import com.ycr.jse.*;
+import com.ycr.jse.strategy.FireStrategy;
+import com.ycr.jse.strategy.FourDirBulletFire;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -135,7 +133,12 @@ public class TankFrame extends Frame {
                     break;
                 case KeyEvent.VK_SPACE:
                     //监听space键盘,press一下发射一课子弹
-                    myTank.fire(new OneBulletFire());
+                    try {
+                        FireStrategy fireStrategy =  (FireStrategy)Class.forName(ConfigManager.INSTANCE.getString("good.fire.strategy")).newInstance();
+                        myTank.fire(fireStrategy);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
                     break;
                 default:
                     break;

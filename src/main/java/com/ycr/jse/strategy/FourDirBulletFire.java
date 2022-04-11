@@ -2,19 +2,23 @@ package com.ycr.jse.strategy;
 
 import com.ycr.jse.Bullet;
 import com.ycr.jse.Tank;
+import com.ycr.jse.frame.Dir;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class OneBulletFire extends FireStrategy<Bullet, Tank> {
+/**
+ * 四个方向打出子弹
+ */
+public class FourDirBulletFire extends FireStrategy<Tank> {
     @Override
-    public List<Bullet> fire(Tank t) {
+    public void fire(Tank t) {
         //设置子弹和坦克的相对位置
         int bulletX = t.getX() + t.WIDTH/2 - Bullet.WIDTH/2;
         int bulletY = t.getY() + t.HEIGHT/2 - Bullet.HEIGHT/2;
-        //返回
-        List<Bullet> result = new ArrayList<>();
-        result.add(new Bullet(bulletX,bulletY,t.getDir(),t.getTankFrame(),t.getGroup()));
-        return result;
+        Dir[] dirs = Dir.values();
+        for (int i = 0; i < dirs.length; i++) {
+            new Bullet(bulletX,bulletY,dirs[i],t.getTankFrame(),t.getGroup());
+        }
     }
 }

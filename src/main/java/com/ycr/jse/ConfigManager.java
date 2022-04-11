@@ -21,5 +21,8 @@ public enum ConfigManager {
     public int getInt(String key){
         return Integer.parseInt((String)properties.get(key));
     }
+    public String getString(String key){
+        return (String)(properties.get(key));
+    }
 
 }
