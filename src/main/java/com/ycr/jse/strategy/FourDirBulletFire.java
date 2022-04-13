@@ -18,7 +18,8 @@ public class FourDirBulletFire extends FireStrategy<Tank> {
         int bulletY = t.getY() + t.HEIGHT/2 - Bullet.HEIGHT/2;
         Dir[] dirs = Dir.values();
         for (int i = 0; i < dirs.length; i++) {
-            new Bullet(bulletX,bulletY,dirs[i],t.getTankFrame(),t.getGroup());
+//            new Bullet(bulletX,bulletY,dirs[i],t.getTankFrame(),t.getGroup());
+            t.getTankFrame().gf.createBullet(bulletX,bulletY,dirs[i],t.getGroup(),t.getTankFrame());
         }
     }
 }

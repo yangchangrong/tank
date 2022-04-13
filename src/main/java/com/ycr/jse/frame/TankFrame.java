@@ -1,6 +1,7 @@
 package com.ycr.jse.frame;
 
 import com.ycr.jse.*;
+import com.ycr.jse.factory.*;
 import com.ycr.jse.strategy.FireStrategy;
 import com.ycr.jse.strategy.FourDirBulletFire;
 
@@ -15,11 +16,12 @@ import java.util.List;
 public class TankFrame extends Frame {
 
     private Tank myTank = new Tank(400,400,Dir.DOWN,true,this, Group.GOOD);
-    private List<Bullet> bullets = new ArrayList<>();
+    private List<BaseBullet> bullets = new ArrayList<>();
     private List<Tank> enemyTanks = new ArrayList<>();
-    private List<Explode> explodes = new ArrayList<>();
+    private List<BaseExplode> explodes = new ArrayList<>();
     public static final int GAME_WIDTH = 1036;
     public static final int GAME_HEIGHT = 768;
+    public AbstractGameFactory gf = new RetGameFactory();
 
     public List<Tank> getEnemyTanks() {
         return enemyTanks;
@@ -28,15 +30,15 @@ public class TankFrame extends Frame {
         this.enemyTanks = enemyTanks;
     }
 
-    public List<Explode> getExplodes() {
+    public List<BaseExplode> getExplodes() {
         return explodes;
     }
 
-    public void setExplodes(List<Explode> explodes) {
+    public void setExplodes(List<BaseExplode> explodes) {
         this.explodes = explodes;
     }
 
-    public List<Bullet> getBullets() {
+    public List<BaseBullet> getBullets() {
         return bullets;
     }
 

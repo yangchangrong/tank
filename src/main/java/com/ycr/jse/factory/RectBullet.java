@@ -1,6 +1,6 @@
-package com.ycr.jse;
+package com.ycr.jse.factory;
 
-import com.ycr.jse.factory.BaseBullet;
+import com.ycr.jse.*;
 import com.ycr.jse.frame.Dir;
 import com.ycr.jse.frame.TankFrame;
 
@@ -9,11 +9,11 @@ import java.awt.*;
 /**
  * 子弹
  */
-public class Bullet extends BaseBullet {
+public class RectBullet extends BaseBullet {
 
     private static final int SPEED = ConfigManager.INSTANCE.getInt("bulletSpeed");
-    public static final int WIDTH = ResourceManager.bulletD.getWidth();
-    public static final int HEIGHT = ResourceManager.bulletD.getHeight();
+    public static final int WIDTH = 20;
+    public static final int HEIGHT = 20;
 
     private  int x,y;
     private Dir dir;
@@ -22,7 +22,7 @@ public class Bullet extends BaseBullet {
     private Group group = Group.GOOD;
     private Rectangle ret = new Rectangle();
 
-    public Bullet(int x, int y, Dir dir,TankFrame tankFrame,Group group) {
+    public RectBullet(int x, int y, Dir dir, TankFrame tankFrame, Group group) {
         this.x = x;
         this.y = y;
         this.dir = dir;
@@ -49,26 +49,30 @@ public class Bullet extends BaseBullet {
 //        g.setColor(Color.RED);
 //        g.fillOval(x,y,WIDTH,WIDTH);
 //        g.setColor(c);
-        Image image = null;
-        switch (dir){
-            case LEFT:
-                image = ResourceManager.bulletL;
-                break;
-            case RIGHT:
-                image = ResourceManager.bulletR;
-                break;
-            case UP:
-                image = ResourceManager.bulletU;
-                break;
-            case DOWN:
-                image = ResourceManager.bulletD;
-                break;
-            default:
-                break;
+//        Image image = null;
+//        switch (dir){
+//            case LEFT:
+//                image = ResourceManager.bulletL;
+//                break;
+//            case RIGHT:
+//                image = ResourceManager.bulletR;
+//                break;
+//            case UP:
+//                image = ResourceManager.bulletU;
+//                break;
+//            case DOWN:
+//                image = ResourceManager.bulletD;
+//                break;
+//            default:
+//                break;
+//
+//        }
 
-        }
-
-        g.drawImage(image,x,y,null);
+//        g.drawImage(image,x,y,null);
+        Color c = g.getColor();
+        g.setColor(Color.green);
+        g.fillRect(x,y,20,20);
+        g.setColor(c);
         move(g);
 
     }

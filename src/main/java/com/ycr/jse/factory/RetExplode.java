@@ -1,32 +1,30 @@
-package com.ycr.jse;
+package com.ycr.jse.factory;
 
-import com.ycr.jse.factory.BaseExplode;
-import com.ycr.jse.frame.Dir;
+import com.ycr.jse.Audio;
+import com.ycr.jse.ResourceManager;
 import com.ycr.jse.frame.TankFrame;
 
 import java.awt.*;
 
-/**
- * 爆炸
- */
-public class Explode extends BaseExplode {
+public class RetExplode extends BaseExplode{
 
-    public static final int WIDTH = ResourceManager.explodes[0].getWidth();
-    public static final int HEIGHT = ResourceManager.explodes[0].getHeight();
 
-    private  int x,y;
+    private final int x;
+    private final int y;
     private boolean living = true;
-    private TankFrame tankFrame;
+    private final TankFrame tankFrame;
     private int step = 0;
 
-    public Explode(int x, int y, TankFrame tankFrame) {
+    public RetExplode(int x, int y, TankFrame tankFrame) {
         this.x = x;
         this.y = y;
         this.tankFrame = tankFrame;
         //增加爆炸声(通过开启新的线程，提升性能)
         new Thread(()->new Audio("audio/explode.wav").play()).start();
     }
-
+    public void die(){
+        this.living = false;
+    }
 
     @Override
     public void paint(Graphics g) {
@@ -34,16 +32,13 @@ public class Explode extends BaseExplode {
             this.tankFrame.getExplodes().remove(this);
             return;
         }
-        g.drawImage(ResourceManager.explodes[step++], x, y, null);
+        Color c = g.getColor();
+        g.setColor(Color.red);
+        g.fillRect(x,y,step * 10,step * 10);
+        step ++;
+        g.setColor(c);
         if (step >= ResourceManager.explodes.length){
             die();
         }
-
     }
-
-    public void die(){
-        this.living = false;
-    }
-
-
 }
