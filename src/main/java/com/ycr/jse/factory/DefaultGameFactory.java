@@ -1,5 +1,6 @@
 package com.ycr.jse.factory;
 
+import com.ycr.jse.Bullet;
 import com.ycr.jse.Explode;
 import com.ycr.jse.Group;
 import com.ycr.jse.frame.Dir;
@@ -11,7 +12,7 @@ import com.ycr.jse.frame.TankFrame;
 public class DefaultGameFactory extends AbstractGameFactory{
     @Override
     public BaseBullet createBullet(int x, int y, Dir dir, Group group, TankFrame tf) {
-        return null;
+        return new Bullet(x,y,dir,tf,group);
     }
 
     @Override

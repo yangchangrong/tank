@@ -21,7 +21,7 @@ public class TankFrame extends Frame {
     private List<BaseExplode> explodes = new ArrayList<>();
     public static final int GAME_WIDTH = 1036;
     public static final int GAME_HEIGHT = 768;
-    public AbstractGameFactory gf = new RetGameFactory();
+    public AbstractGameFactory gf = new DefaultGameFactory();
 
     public List<Tank> getEnemyTanks() {
         return enemyTanks;
