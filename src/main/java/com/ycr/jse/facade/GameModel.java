@@ -2,9 +2,11 @@ package com.ycr.jse.facade;
 
 import com.ycr.jse.*;
 import com.ycr.jse.frame.Dir;
+import com.ycr.jse.responsibleChain.ColliderChain;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -17,8 +19,9 @@ public class GameModel {
 //    private List<Tank> enemyTanks = new ArrayList<>();
 //    private List<Explode> explodes = new ArrayList<>();
     List<GameObject> gameObjects = new ArrayList<>();
-    BulletTankCollider bulletTankCollider = new BulletTankCollider();
-    TankTankCollider tankTankCollider = new TankTankCollider();
+//    BulletTankCollider bulletTankCollider = new BulletTankCollider();
+//    TankTankCollider tankTankCollider = new TankTankCollider();
+    ColliderChain colliderChain = new ColliderChain();
 
 
     public List<GameObject> getGameObjects() {
@@ -56,6 +59,9 @@ public class GameModel {
 //            Dir initDir = Dir.values()[dirNum];
             this.gameObjects.add(new Tank(200 + 50 * i,200, Dir.DOWN,false,this,Group.BAD));
         }
+        //添加碰撞链
+        colliderChain.add(new BulletTankCollider());
+        colliderChain.add(new TankTankCollider());
 
     }
 
@@ -89,8 +95,7 @@ public class GameModel {
 //      判断各种物体的碰撞
         for (int i = 0; i < gameObjects.size(); i++) {
             for (int j = i + 1; j < gameObjects.size(); j++) {
-                bulletTankCollider.collide(gameObjects.get(i),gameObjects.get(j));
-                tankTankCollider.collide(gameObjects.get(i),gameObjects.get(j));
+               colliderChain.collide(gameObjects.get(i),gameObjects.get(j));
             }
         }
     }

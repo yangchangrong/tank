@@ -5,5 +5,5 @@ package com.ycr.jse.facade;
  */
 public interface Collider {
 
-    void collide(GameObject o1,GameObject o2);
+    boolean collide(GameObject o1,GameObject o2);
 }
