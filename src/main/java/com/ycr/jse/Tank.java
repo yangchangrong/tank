@@ -23,9 +23,10 @@ public class Tank extends GameObject {
     private Group group = Group.GOOD;
     private Rectangle ret = new Rectangle();
 
-    private static int SPEED = ConfigManager.INSTANCE.getInt("tankSpeed");
+
     public static final int WIDTH = ResourceManager.goodTankD.getWidth();
     public static final int HEIGHT = ResourceManager.goodTankD.getHeight();
+    private static int SPEED = ConfigManager.INSTANCE.getInt("tankSpeed");
 
     public void setStop(boolean stop) {
         this.stop = stop;
@@ -133,7 +134,8 @@ public class Tank extends GameObject {
             randomDir();
             //对敌方坦克进行边界控制
             if (x < 0 || y < 0 || x > TankFrame.GAME_WIDTH - WIDTH || y > TankFrame.GAME_HEIGHT - HEIGHT){
-                boundsCheck(dir);
+                //设置反方向移动
+                reverseDir(dir);
             }
 
         }
@@ -151,7 +153,7 @@ public class Tank extends GameObject {
         this.dir = dir;
     }
     //设置反方向
-    public void boundsCheck(Dir dir) {
+    public void reverseDir(Dir dir) {
         switch (dir){
             case DOWN:
                 this.dir = Dir.UP;
@@ -204,5 +206,15 @@ public class Tank extends GameObject {
 
     public GameModel getGameModel() {
         return gm;
+    }
+
+    //当敌人的坦克和坦克之间发生碰撞，直接都都改变反方向
+    public void collideWith(Tank t2) {
+        Rectangle ret1 = this.getRet();
+        Rectangle ret2 = t2.getRet();
+        if (ret1.intersects(ret2)){
+            this.reverseDir(this.getDir());
+            t2.reverseDir(t2.getDir());
+        }
     }
 }

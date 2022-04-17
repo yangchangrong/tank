@@ -18,6 +18,9 @@ public class GameModel {
 //    private List<Explode> explodes = new ArrayList<>();
     List<GameObject> gameObjects = new ArrayList<>();
     BulletTankCollider bulletTankCollider = new BulletTankCollider();
+    TankTankCollider tankTankCollider = new TankTankCollider();
+
+
     public List<GameObject> getGameObjects() {
         return gameObjects;
     }
@@ -87,6 +90,7 @@ public class GameModel {
         for (int i = 0; i < gameObjects.size(); i++) {
             for (int j = i + 1; j < gameObjects.size(); j++) {
                 bulletTankCollider.collide(gameObjects.get(i),gameObjects.get(j));
+                tankTankCollider.collide(gameObjects.get(i),gameObjects.get(j));
             }
         }
     }
