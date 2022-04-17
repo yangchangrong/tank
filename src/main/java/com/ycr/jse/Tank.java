@@ -22,7 +22,8 @@ public class Tank extends GameObject {
     private boolean living = true;
     private Group group = Group.GOOD;
     private Rectangle ret = new Rectangle();
-
+    private int oldX;
+    private int oldY;
 
     public static final int WIDTH = ResourceManager.goodTankD.getWidth();
     public static final int HEIGHT = ResourceManager.goodTankD.getHeight();
@@ -103,6 +104,8 @@ public class Tank extends GameObject {
     }
 
     private void move() {
+        oldX = x;
+        oldY = y;
         if (!stop){
             switch (dir) {
                 case UP:
@@ -133,7 +136,8 @@ public class Tank extends GameObject {
             //随机方向
             randomDir();
             //对敌方坦克进行边界控制
-            if (x < 0 || y < 0 || x > TankFrame.GAME_WIDTH - WIDTH || y > TankFrame.GAME_HEIGHT - HEIGHT){
+            int limitLength = Math.max(WIDTH,HEIGHT);
+            if (x < limitLength || y < limitLength || x > TankFrame.GAME_WIDTH - limitLength || y > TankFrame.GAME_HEIGHT - limitLength){
                 //设置反方向移动
                 reverseDir(dir);
             }
@@ -172,6 +176,11 @@ public class Tank extends GameObject {
         }
     }
 
+    public void back() {
+       this.x = oldX;
+       this.y = oldY;
+    }
+
     public int getX() {
         return x;
     }
@@ -208,13 +217,5 @@ public class Tank extends GameObject {
         return gm;
     }
 
-    //当敌人的坦克和坦克之间发生碰撞，直接都都改变反方向
-    public void collideWith(Tank t2) {
-        Rectangle ret1 = this.getRet();
-        Rectangle ret2 = t2.getRet();
-        if (ret1.intersects(ret2)){
-            this.reverseDir(this.getDir());
-            t2.reverseDir(t2.getDir());
-        }
-    }
+
 }

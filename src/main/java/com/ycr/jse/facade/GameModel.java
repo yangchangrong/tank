@@ -55,13 +55,18 @@ public class GameModel {
         int initEnemyTankCount = ConfigManager.INSTANCE.getInt("initEnemyTankCount");
         //添加敌人
         for (int i = 0; i < initEnemyTankCount; i++) {
-//            int dirNum = (int)(Math.random() * 4);
-//            Dir initDir = Dir.values()[dirNum];
-            this.gameObjects.add(new Tank(200 + 50 * i,200, Dir.DOWN,false,this,Group.BAD));
+            this.gameObjects.add(new Tank(200 + 150 * i,200, Dir.DOWN,false,this,Group.BAD));
         }
+        //添加墙
+        this.gameObjects.add(new Wall(50,300,100,100,this));
+        this.gameObjects.add(new Wall(400,300,100,100,this));
+        this.gameObjects.add(new Wall(300,50,100,100,this));
+        this.gameObjects.add(new Wall(300,500,100,100,this));
         //添加碰撞链
         colliderChain.add(new BulletTankCollider());
         colliderChain.add(new TankTankCollider());
+        colliderChain.add(new BulletWallCollider());
+        colliderChain.add(new TankWallCollider());
 
     }
 

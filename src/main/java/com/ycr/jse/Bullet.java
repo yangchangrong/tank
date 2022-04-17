@@ -36,12 +36,20 @@ public class Bullet extends GameObject {
         gm.getGameObjects().add(this);
     }
 
+    public GameModel getGm() {
+        return gm;
+    }
+
     public Group getGroup() {
         return group;
     }
 
     public void setGroup(Group group) {
         this.group = group;
+    }
+
+    public Rectangle getRet() {
+        return ret;
     }
 
     @Override
@@ -108,23 +116,9 @@ public class Bullet extends GameObject {
         this.dir = dir;
     }
 
-    //判断相撞
-    public void collideWith(Tank tank) {
-        if (tank.getGroup().equals(this.getGroup())){
-            return;
-        }
-        if (this.ret.intersects(tank.getRet())){
-            //坦克和子弹都必须die
-            tank.die();
-            this.die();
-            //每课子弹die都创建爆炸
-            int explodeX = tank.getX() + Tank.WIDTH/2 - Explode.WIDTH/2;
-            int explodeY = tank.getY() + Tank.HEIGHT/2 - Explode.WIDTH/2;
-            gm.getGameObjects().add(new Explode(explodeX,explodeY,gm));
-        }
-    }
 
-    private void die() {
+
+    public void die() {
         this.living = false;
     }
 }
