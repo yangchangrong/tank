@@ -1,6 +1,7 @@
 package com.ycr.jse;
 
 import com.ycr.jse.facade.GameModel;
+import com.ycr.jse.facade.GameObject;
 import com.ycr.jse.frame.Dir;
 import com.ycr.jse.frame.TankFrame;
 
@@ -9,7 +10,7 @@ import java.awt.*;
 /**
  * 爆炸
  */
-public class Explode {
+public class Explode extends GameObject {
 
     public static final int WIDTH = ResourceManager.explodes[0].getWidth();
     public static final int HEIGHT = ResourceManager.explodes[0].getHeight();
@@ -30,7 +31,7 @@ public class Explode {
 
     public void paint(Graphics g) {
         if (!living){
-            this.gm.getExplodes().remove(this);
+            this.gm.getGameObjects().remove(this);
             return;
         }
         g.drawImage(ResourceManager.explodes[step++], x, y, null);

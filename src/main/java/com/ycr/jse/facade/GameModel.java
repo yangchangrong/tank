@@ -13,32 +13,37 @@ import java.util.List;
 public class GameModel {
 
     private Tank myTank = new Tank(400,400, Dir.DOWN,true,this, Group.GOOD);
-    private List<Bullet> bullets = new ArrayList<>();
-    private List<Tank> enemyTanks = new ArrayList<>();
-    private List<Explode> explodes = new ArrayList<>();
+//    private List<Bullet> bullets = new ArrayList<>();
+//    private List<Tank> enemyTanks = new ArrayList<>();
+//    private List<Explode> explodes = new ArrayList<>();
+    List<GameObject> gameObjects = new ArrayList<>();
+    BulletTankCollider bulletTankCollider = new BulletTankCollider();
+    public List<GameObject> getGameObjects() {
+        return gameObjects;
+    }
 
     public Tank getMyTank() {
         return myTank;
     }
 
-    public List<Tank> getEnemyTanks() {
-        return enemyTanks;
-    }
-    public void setEnemyTanks(List<Tank> enemyTanks) {
-        this.enemyTanks = enemyTanks;
-    }
-
-    public List<Explode> getExplodes() {
-        return explodes;
-    }
-
-    public void setExplodes(List<Explode> explodes) {
-        this.explodes = explodes;
-    }
-
-    public List<Bullet> getBullets() {
-        return bullets;
-    }
+//    public List<Tank> getEnemyTanks() {
+//        return enemyTanks;
+//    }
+//    public void setEnemyTanks(List<Tank> enemyTanks) {
+//        this.enemyTanks = enemyTanks;
+//    }
+//
+//    public List<Explode> getExplodes() {
+//        return explodes;
+//    }
+//
+//    public void setExplodes(List<Explode> explodes) {
+//        this.explodes = explodes;
+//    }
+//
+//    public List<Bullet> getBullets() {
+//        return bullets;
+//    }
 
     public GameModel(){
         int initEnemyTankCount = ConfigManager.INSTANCE.getInt("initEnemyTankCount");
@@ -46,7 +51,7 @@ public class GameModel {
         for (int i = 0; i < initEnemyTankCount; i++) {
 //            int dirNum = (int)(Math.random() * 4);
 //            Dir initDir = Dir.values()[dirNum];
-            this.getEnemyTanks().add(new Tank(200 + 50 * i,200, Dir.DOWN,false,this,Group.BAD));
+            this.gameObjects.add(new Tank(200 + 50 * i,200, Dir.DOWN,false,this,Group.BAD));
         }
 
     }
@@ -56,31 +61,32 @@ public class GameModel {
      * @param g
      */
     public void paint(Graphics g) {
-        Color c = g.getColor();
-        g.setColor(Color.WHITE);
-        g.drawString("子弹的数目" + bullets.size(),10,60);
-        g.drawString("敌人的数目" + enemyTanks.size(),10,80);
-        g.drawString("爆炸的数目" + explodes.size(),10,100);
-        g.setColor(c);
-        //画敌人坦克
-        for (int j = 0; j < enemyTanks.size(); j++) {
-            enemyTanks.get(j).paint(g);
-        }
-
+//        Color c = g.getColor();
+//        g.setColor(Color.WHITE);
+//        g.drawString("子弹的数目" + bullets.size(),10,60);
+//        g.drawString("敌人的数目" + enemyTanks.size(),10,80);
+//        g.drawString("爆炸的数目" + explodes.size(),10,100);
+//        g.setColor(c);
         //画自己坦克
         myTank.paint(g);
-        //画子弹
-        for (int i = 0; i < bullets.size(); i++){
-            bullets.get(i).paint(g);
+        //画 (敌人坦克 + 子弹 + 爆炸 + ...)
+        for (int j = 0; j < gameObjects.size(); j++) {
+            gameObjects.get(j).paint(g);
         }
-        //画爆炸
-        for (int i = 0; i < explodes.size(); i++) {
-            explodes.get(i).paint(g);
-        }
+
+//        //画子弹
+//        for (int i = 0; i < bullets.size(); i++){
+//            bullets.get(i).paint(g);
+//        }
+//        //画爆炸
+//        for (int i = 0; i < explodes.size(); i++) {
+//            explodes.get(i).paint(g);
+//        }
         //判断自己的子弹和敌人坦克相撞
-        for (int i = 0; i < bullets.size(); i++) {
-            for (int j = 0; j < enemyTanks.size(); j++) {
-                bullets.get(i).collideWith(enemyTanks.get(j));
+//      判断各种物体的碰撞
+        for (int i = 0; i < gameObjects.size(); i++) {
+            for (int j = i + 1; j < gameObjects.size(); j++) {
+                bulletTankCollider.collide(gameObjects.get(i),gameObjects.get(j));
             }
         }
     }

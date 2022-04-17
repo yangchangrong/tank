@@ -1,6 +1,7 @@
 package com.ycr.jse;
 
 import com.ycr.jse.facade.GameModel;
+import com.ycr.jse.facade.GameObject;
 import com.ycr.jse.frame.Dir;
 import com.ycr.jse.frame.TankFrame;
 import com.ycr.jse.strategy.FireStrategy;
@@ -11,7 +12,7 @@ import java.awt.*;
 /**
  * 坦克类
  */
-public class Tank {
+public class Tank extends GameObject {
 
     private int x = 200;
     private int y = 200;
@@ -51,7 +52,7 @@ public class Tank {
 //        g.setColor(Color.YELLOW);
 //        g.fillRect(x, y, 50, 50);
         if (!living){
-            this.gm.getEnemyTanks().remove(this);
+            this.gm.getGameObjects().remove(this);
         }
         Image image = null;
         switch (group){

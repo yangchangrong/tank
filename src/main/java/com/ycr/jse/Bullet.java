@@ -1,6 +1,7 @@
 package com.ycr.jse;
 
 import com.ycr.jse.facade.GameModel;
+import com.ycr.jse.facade.GameObject;
 import com.ycr.jse.frame.Dir;
 import com.ycr.jse.frame.TankFrame;
 
@@ -9,7 +10,7 @@ import java.awt.*;
 /**
  * 子弹
  */
-public class Bullet {
+public class Bullet extends GameObject {
 
     private static final int SPEED = ConfigManager.INSTANCE.getInt("bulletSpeed");
     public static final int WIDTH = ResourceManager.bulletD.getWidth();
@@ -32,7 +33,7 @@ public class Bullet {
         ret.y = this.y ;
         ret.width = WIDTH;
         ret.height = HEIGHT;
-        gm.getBullets().add(this);
+        gm.getGameObjects().add(this);
     }
 
     public Group getGroup() {
@@ -43,6 +44,7 @@ public class Bullet {
         this.group = group;
     }
 
+    @Override
     public void paint(Graphics g) {
 //        Color c = g.getColor();
 //        g.setColor(Color.RED);
@@ -78,7 +80,7 @@ public class Bullet {
      */
     private void move(Graphics g) {
         if (!this.living){
-            gm.getBullets().remove(this);
+            gm.getGameObjects().remove(this);
         }
         switch (dir) {
             case UP:
@@ -118,7 +120,7 @@ public class Bullet {
             //每课子弹die都创建爆炸
             int explodeX = tank.getX() + Tank.WIDTH/2 - Explode.WIDTH/2;
             int explodeY = tank.getY() + Tank.HEIGHT/2 - Explode.WIDTH/2;
-            gm.getExplodes().add(new Explode(explodeX,explodeY,gm));
+            gm.getGameObjects().add(new Explode(explodeX,explodeY,gm));
         }
     }
 
