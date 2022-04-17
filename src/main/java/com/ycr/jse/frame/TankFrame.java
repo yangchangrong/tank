@@ -1,6 +1,7 @@
 package com.ycr.jse.frame;
 
 import com.ycr.jse.*;
+import com.ycr.jse.facade.GameModel;
 import com.ycr.jse.strategy.FireStrategy;
 import com.ycr.jse.strategy.FourDirBulletFire;
 
@@ -12,33 +13,16 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 独立view
+ */
 public class TankFrame extends Frame {
 
-    private Tank myTank = new Tank(400,400,Dir.DOWN,true,this, Group.GOOD);
-    private List<Bullet> bullets = new ArrayList<>();
-    private List<Tank> enemyTanks = new ArrayList<>();
-    private List<Explode> explodes = new ArrayList<>();
+
     public static final int GAME_WIDTH = 1036;
     public static final int GAME_HEIGHT = 768;
 
-    public List<Tank> getEnemyTanks() {
-        return enemyTanks;
-    }
-    public void setEnemyTanks(List<Tank> enemyTanks) {
-        this.enemyTanks = enemyTanks;
-    }
-
-    public List<Explode> getExplodes() {
-        return explodes;
-    }
-
-    public void setExplodes(List<Explode> explodes) {
-        this.explodes = explodes;
-    }
-
-    public List<Bullet> getBullets() {
-        return bullets;
-    }
+    private GameModel gameModel = new GameModel();
 
 
     public TankFrame(){
@@ -76,35 +60,7 @@ public class TankFrame extends Frame {
     @Override
     public void paint(Graphics g) {
         System.out.println("paint");
-        Color c = g.getColor();
-        g.setColor(Color.WHITE);
-        g.drawString("子弹的数目" + bullets.size(),10,60);
-        g.drawString("敌人的数目" + enemyTanks.size(),10,80);
-        g.drawString("爆炸的数目" + explodes.size(),10,100);
-        g.setColor(c);
-        //画敌人坦克
-        for (int j = 0; j < enemyTanks.size(); j++) {
-            enemyTanks.get(j).paint(g);
-        }
-
-        //画自己坦克
-        myTank.paint(g);
-        //画子弹
-        for (int i = 0; i < bullets.size(); i++){
-            bullets.get(i).paint(g);
-        }
-        //画爆炸
-        for (int i = 0; i < explodes.size(); i++) {
-            explodes.get(i).paint(g);
-        }
-        //判断自己的子弹和敌人坦克相撞
-        for (int i = 0; i < bullets.size(); i++) {
-            for (int j = 0; j < enemyTanks.size(); j++) {
-                bullets.get(i).collideWith(enemyTanks.get(j));
-            }
-        }
-
-
+        gameModel.paint(g);
 
     }
 
@@ -135,7 +91,7 @@ public class TankFrame extends Frame {
                     //监听space键盘,press一下发射一课子弹
                     try {
                         FireStrategy fireStrategy =  (FireStrategy)Class.forName(ConfigManager.INSTANCE.getString("good.fire.strategy")).newInstance();
-                        myTank.fire(fireStrategy);
+                        gameModel.getMyTank().fire(fireStrategy);
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
@@ -172,6 +128,7 @@ public class TankFrame extends Frame {
 
 
         public void setDir(){
+            Tank myTank = gameModel.getMyTank();
             if (!bl && !br && !bu && !bd){
                 myTank.setStop(true);
             }else {

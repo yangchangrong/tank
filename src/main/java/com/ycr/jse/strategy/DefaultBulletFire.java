@@ -13,6 +13,6 @@ public class DefaultBulletFire extends FireStrategy<Tank> {
         int bulletX = t.getX() + t.WIDTH/2 - Bullet.WIDTH/2;
         int bulletY = t.getY() + t.HEIGHT/2 - Bullet.HEIGHT/2;
         //返回
-        new Bullet(bulletX,bulletY,t.getDir(),t.getTankFrame(),t.getGroup());
+        new Bullet(bulletX,bulletY,t.getDir(),t.getGameModel(),t.getGroup());
     }
 }

@@ -1,5 +1,6 @@
 package com.ycr.jse;
 
+import com.ycr.jse.facade.GameModel;
 import com.ycr.jse.frame.Dir;
 import com.ycr.jse.frame.TankFrame;
 import com.ycr.jse.strategy.FireStrategy;
@@ -16,7 +17,7 @@ public class Tank {
     private int y = 200;
     private Dir dir = Dir.DOWN;
     private boolean stop = true;
-    private TankFrame tankFrame;
+    private GameModel gm;
     private boolean living = true;
     private Group group = Group.GOOD;
     private Rectangle ret = new Rectangle();
@@ -29,12 +30,12 @@ public class Tank {
         this.stop = stop;
     }
 
-    public Tank(int x, int y, Dir dir,boolean stop,TankFrame tankFrame,Group group) {
+    public Tank(int x, int y, Dir dir,boolean stop,GameModel gm,Group group) {
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.stop = stop;
-        this.tankFrame = tankFrame;
+        this.gm = gm;
         this.group = group;
         ret.x = this.x;
         ret.y = this.y;
@@ -50,7 +51,7 @@ public class Tank {
 //        g.setColor(Color.YELLOW);
 //        g.fillRect(x, y, 50, 50);
         if (!living){
-            this.tankFrame.getEnemyTanks().remove(this);
+            this.gm.getEnemyTanks().remove(this);
         }
         Image image = null;
         switch (group){
@@ -200,7 +201,7 @@ public class Tank {
         this.living = false;
     }
 
-    public TankFrame getTankFrame() {
-        return tankFrame;
+    public GameModel getGameModel() {
+        return gm;
     }
 }

@@ -1,0 +1,87 @@
+package com.ycr.jse.facade;
+
+import com.ycr.jse.*;
+import com.ycr.jse.frame.Dir;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 游戏内部逻辑统一对外的门面对象
+ */
+public class GameModel {
+
+    private Tank myTank = new Tank(400,400, Dir.DOWN,true,this, Group.GOOD);
+    private List<Bullet> bullets = new ArrayList<>();
+    private List<Tank> enemyTanks = new ArrayList<>();
+    private List<Explode> explodes = new ArrayList<>();
+
+    public Tank getMyTank() {
+        return myTank;
+    }
+
+    public List<Tank> getEnemyTanks() {
+        return enemyTanks;
+    }
+    public void setEnemyTanks(List<Tank> enemyTanks) {
+        this.enemyTanks = enemyTanks;
+    }
+
+    public List<Explode> getExplodes() {
+        return explodes;
+    }
+
+    public void setExplodes(List<Explode> explodes) {
+        this.explodes = explodes;
+    }
+
+    public List<Bullet> getBullets() {
+        return bullets;
+    }
+
+    public GameModel(){
+        int initEnemyTankCount = ConfigManager.INSTANCE.getInt("initEnemyTankCount");
+        //添加敌人
+        for (int i = 0; i < initEnemyTankCount; i++) {
+//            int dirNum = (int)(Math.random() * 4);
+//            Dir initDir = Dir.values()[dirNum];
+            this.getEnemyTanks().add(new Tank(200 + 50 * i,200, Dir.DOWN,false,this,Group.BAD));
+        }
+
+    }
+
+    /**
+     * 具体画的逻辑
+     * @param g
+     */
+    public void paint(Graphics g) {
+        Color c = g.getColor();
+        g.setColor(Color.WHITE);
+        g.drawString("子弹的数目" + bullets.size(),10,60);
+        g.drawString("敌人的数目" + enemyTanks.size(),10,80);
+        g.drawString("爆炸的数目" + explodes.size(),10,100);
+        g.setColor(c);
+        //画敌人坦克
+        for (int j = 0; j < enemyTanks.size(); j++) {
+            enemyTanks.get(j).paint(g);
+        }
+
+        //画自己坦克
+        myTank.paint(g);
+        //画子弹
+        for (int i = 0; i < bullets.size(); i++){
+            bullets.get(i).paint(g);
+        }
+        //画爆炸
+        for (int i = 0; i < explodes.size(); i++) {
+            explodes.get(i).paint(g);
+        }
+        //判断自己的子弹和敌人坦克相撞
+        for (int i = 0; i < bullets.size(); i++) {
+            for (int j = 0; j < enemyTanks.size(); j++) {
+                bullets.get(i).collideWith(enemyTanks.get(j));
+            }
+        }
+    }
+}

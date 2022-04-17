@@ -1,5 +1,6 @@
 package com.ycr.jse;
 
+import com.ycr.jse.facade.GameModel;
 import com.ycr.jse.frame.Dir;
 import com.ycr.jse.frame.TankFrame;
 
@@ -17,21 +18,21 @@ public class Bullet {
     private  int x,y;
     private Dir dir;
     private boolean living = true;
-    private TankFrame tankFrame;
+    private GameModel gm;
     private Group group = Group.GOOD;
     private Rectangle ret = new Rectangle();
 
-    public Bullet(int x, int y, Dir dir,TankFrame tankFrame,Group group) {
+    public Bullet(int x, int y, Dir dir,GameModel gm,Group group) {
         this.x = x;
         this.y = y;
         this.dir = dir;
-        this.tankFrame = tankFrame;
+        this.gm = gm;
         this.group = group;
         ret.x = this.x;
-        ret.y = this.y;
+        ret.y = this.y ;
         ret.width = WIDTH;
         ret.height = HEIGHT;
-        tankFrame.getBullets().add(this);
+        gm.getBullets().add(this);
     }
 
     public Group getGroup() {
@@ -77,7 +78,7 @@ public class Bullet {
      */
     private void move(Graphics g) {
         if (!this.living){
-            tankFrame.getBullets().remove(this);
+            gm.getBullets().remove(this);
         }
         switch (dir) {
             case UP:
@@ -117,7 +118,7 @@ public class Bullet {
             //每课子弹die都创建爆炸
             int explodeX = tank.getX() + Tank.WIDTH/2 - Explode.WIDTH/2;
             int explodeY = tank.getY() + Tank.HEIGHT/2 - Explode.WIDTH/2;
-            tankFrame.getExplodes().add(new Explode(explodeX,explodeY,tankFrame));
+            gm.getExplodes().add(new Explode(explodeX,explodeY,gm));
         }
     }
 
