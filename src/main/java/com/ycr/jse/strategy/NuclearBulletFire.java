@@ -18,6 +18,6 @@ public class NuclearBulletFire extends FireStrategy<Tank> {
         int bulletY = t.getY() + t.HEIGHT/2 - Bullet.HEIGHT/2;
         //返回
         List<Bullet> result = new ArrayList<>();
-        new Bullet(bulletX,bulletY,t.getDir(),t.getGameModel(),t.getGroup());
+        new Bullet(bulletX,bulletY,t.getDir(),t.getGroup());
     }
 }

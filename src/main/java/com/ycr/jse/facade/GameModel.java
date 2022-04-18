@@ -14,17 +14,15 @@ import java.util.List;
  */
 public class GameModel {
 
+
     //单例解耦
     private static final GameModel INSTANCE = new GameModel();
 
-    private Tank myTank = new Tank(400,400, Dir.DOWN,true,this, Group.GOOD);
-//    private List<Bullet> bullets = new ArrayList<>();
-//    private List<Tank> enemyTanks = new ArrayList<>();
-//    private List<Explode> explodes = new ArrayList<>();
+    private static Tank myTank = null;
+
     List<GameObject> gameObjects = new ArrayList<>();
-//    BulletTankCollider bulletTankCollider = new BulletTankCollider();
-//    TankTankCollider tankTankCollider = new TankTankCollider();
-    ColliderChain colliderChain = new ColliderChain();
+
+    static ColliderChain colliderChain = new ColliderChain();
 
 
     public List<GameObject> getGameObjects() {
@@ -35,44 +33,40 @@ public class GameModel {
         return myTank;
     }
 
-//    public List<Tank> getEnemyTanks() {
-//        return enemyTanks;
-//    }
-//    public void setEnemyTanks(List<Tank> enemyTanks) {
-//        this.enemyTanks = enemyTanks;
-//    }
-//
-//    public List<Explode> getExplodes() {
-//        return explodes;
-//    }
-//
-//    public void setExplodes(List<Explode> explodes) {
-//        this.explodes = explodes;
-//    }
-//
-//    public List<Bullet> getBullets() {
-//        return bullets;
-//    }
+    /**
+     * 静态代码块，是类加载的最后一步
+     */
+    static {
+        init();
+    }
 
     private GameModel(){
+        System.out.println("GameModel 构造方法执行");
+    }
+
+    public static void init(){
+        //添加自己坦克
+        myTank =  new Tank(400,400, Dir.DOWN,true, Group.GOOD);
         int initEnemyTankCount = ConfigManager.INSTANCE.getInt("initEnemyTankCount");
         //添加敌人
         for (int i = 0; i < initEnemyTankCount; i++) {
-            this.gameObjects.add(new Tank(200 + 150 * i,200, Dir.DOWN,false,this,Group.BAD));
+            new Tank(200 + 150 * i,200, Dir.DOWN,false,Group.BAD);
         }
         //添加墙
-        this.gameObjects.add(new Wall(50,300,100,100,this));
-        this.gameObjects.add(new Wall(400,300,100,100,this));
-        this.gameObjects.add(new Wall(300,50,100,100,this));
-        this.gameObjects.add(new Wall(300,500,100,100,this));
+        new Wall(50,300,100,100);
+        new Wall(400,300,100,100);
+        new Wall(300,50,100,100);
+        new Wall(300,500,100,100);
         //添加碰撞链
         colliderChain.add(new BulletTankCollider());
         colliderChain.add(new TankTankCollider());
         colliderChain.add(new BulletWallCollider());
         colliderChain.add(new TankWallCollider());
-
     }
 
+    public void add(GameObject gameObject){
+        gameObjects.add(gameObject);
+    }
     public static GameModel getInstance(){
         return INSTANCE;
     }

@@ -19,15 +19,14 @@ public class Bullet extends GameObject {
     private  int x,y;
     private Dir dir;
     private boolean living = true;
-    private GameModel gm;
+    private GameModel gm = GameModel.getInstance();
     private Group group = Group.GOOD;
     private Rectangle ret = new Rectangle();
 
-    public Bullet(int x, int y, Dir dir,GameModel gm,Group group) {
+    public Bullet(int x, int y, Dir dir,Group group) {
         this.x = x;
         this.y = y;
         this.dir = dir;
-        this.gm = gm;
         this.group = group;
         ret.x = this.x;
         ret.y = this.y ;

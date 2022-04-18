@@ -15,19 +15,18 @@ public class Wall extends GameObject {
     private  int x,y;
     private  int width,height;
     private Dir dir;
-    private GameModel gm;
     private Rectangle ret = new Rectangle();
 
-    public Wall(int x, int y,int width,int height, GameModel gm) {
+    public Wall(int x, int y,int width,int height) {
         this.x = x;
         this.y = y;
-        this.gm = gm;
         this.width = width;
         this.height = height;
         ret.x = this.x;
         ret.y = this.y ;
         ret.width = height;
         ret.height = height;
+        GameModel.getInstance().add(this);
     }
 
     public Rectangle getRet() {

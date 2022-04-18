@@ -1,17 +1,15 @@
 package com.ycr.jse.frame;
 
-import com.ycr.jse.*;
+import com.ycr.jse.ConfigManager;
+import com.ycr.jse.Tank;
 import com.ycr.jse.facade.GameModel;
 import com.ycr.jse.strategy.FireStrategy;
-import com.ycr.jse.strategy.FourDirBulletFire;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 独立view

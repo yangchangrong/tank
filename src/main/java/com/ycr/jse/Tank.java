@@ -18,7 +18,7 @@ public class Tank extends GameObject {
     private int y = 200;
     private Dir dir = Dir.DOWN;
     private boolean stop = true;
-    private GameModel gm;
+    private GameModel gm = GameModel.getInstance();
     private boolean living = true;
     private Group group = Group.GOOD;
     private Rectangle ret = new Rectangle();
@@ -33,17 +33,17 @@ public class Tank extends GameObject {
         this.stop = stop;
     }
 
-    public Tank(int x, int y, Dir dir,boolean stop,GameModel gm,Group group) {
+    public Tank(int x, int y, Dir dir,boolean stop,Group group) {
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.stop = stop;
-        this.gm = gm;
         this.group = group;
         ret.x = this.x;
         ret.y = this.y;
         ret.width = WIDTH;
         ret.height = HEIGHT;
+        GameModel.getInstance().add(this);
     }
 
     public Rectangle getRet() {
@@ -213,9 +213,6 @@ public class Tank extends GameObject {
         this.living = false;
     }
 
-    public GameModel getGameModel() {
-        return gm;
-    }
 
 
 }
