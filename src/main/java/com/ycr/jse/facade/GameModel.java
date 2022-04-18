@@ -14,6 +14,9 @@ import java.util.List;
  */
 public class GameModel {
 
+    //单例解耦
+    private static final GameModel INSTANCE = new GameModel();
+
     private Tank myTank = new Tank(400,400, Dir.DOWN,true,this, Group.GOOD);
 //    private List<Bullet> bullets = new ArrayList<>();
 //    private List<Tank> enemyTanks = new ArrayList<>();
@@ -51,7 +54,7 @@ public class GameModel {
 //        return bullets;
 //    }
 
-    public GameModel(){
+    private GameModel(){
         int initEnemyTankCount = ConfigManager.INSTANCE.getInt("initEnemyTankCount");
         //添加敌人
         for (int i = 0; i < initEnemyTankCount; i++) {
@@ -68,6 +71,10 @@ public class GameModel {
         colliderChain.add(new BulletWallCollider());
         colliderChain.add(new TankWallCollider());
 
+    }
+
+    public static GameModel getInstance(){
+        return INSTANCE;
     }
 
     /**
