@@ -3,6 +3,9 @@ package com.ycr.jse.frame;
 import com.ycr.jse.ConfigManager;
 import com.ycr.jse.Tank;
 import com.ycr.jse.facade.GameModel;
+import com.ycr.jse.obersver.KeyPressEvent;
+import com.ycr.jse.obersver.KeyPressObserver;
+import com.ycr.jse.obersver.SpaceKeyPressObserver;
 import com.ycr.jse.strategy.FireStrategy;
 
 import java.awt.*;
@@ -10,6 +13,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 独立view
@@ -20,7 +26,8 @@ public class TankFrame extends Frame {
     public static final int GAME_WIDTH = 1360;
     public static final int GAME_HEIGHT = 768;
 
-    private GameModel gameModel = GameModel.getInstance();
+    private List<KeyPressObserver> keyPressObserverList = new ArrayList<>();
+
 
 
     public TankFrame(){
@@ -37,6 +44,7 @@ public class TankFrame extends Frame {
                     }
                 }
         );
+        keyPressObserverList.add(new SpaceKeyPressObserver());
     }
 
     Image offScreenImage = null;
@@ -58,7 +66,7 @@ public class TankFrame extends Frame {
     @Override
     public void paint(Graphics g) {
         System.out.println("paint");
-        gameModel.paint(g);
+        GameModel.getInstance().paint(g);
 
     }
 
@@ -87,12 +95,8 @@ public class TankFrame extends Frame {
                     break;
                 case KeyEvent.VK_SPACE:
                     //监听space键盘,press一下发射一课子弹
-                    try {
-                        FireStrategy fireStrategy =  (FireStrategy)Class.forName(ConfigManager.INSTANCE.getString("good.fire.strategy")).newInstance();
-                        gameModel.getMyTank().fire(fireStrategy);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
+                    handleOnSpacePress();
+
                     break;
                 default:
                     break;
@@ -101,6 +105,8 @@ public class TankFrame extends Frame {
 
 
         }
+
+
 
         @Override
         public void keyReleased(KeyEvent e) {
@@ -126,7 +132,7 @@ public class TankFrame extends Frame {
 
 
         public void setDir(){
-            Tank myTank = gameModel.getMyTank();
+            Tank myTank = GameModel.getInstance().getMyTank();
             if (!bl && !br && !bu && !bd){
                 myTank.setStop(true);
             }else {
@@ -138,6 +144,13 @@ public class TankFrame extends Frame {
             }
 
 
+        }
+    }
+
+    public void handleOnSpacePress(){
+        KeyPressEvent keyPressEvent = new KeyPressEvent(this,new Date());
+        for (KeyPressObserver observer : keyPressObserverList){
+            observer.actionOnObserve(keyPressEvent);
         }
     }
 

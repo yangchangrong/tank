@@ -14,11 +14,8 @@ import java.awt.*;
  */
 public class Tank extends GameObject {
 
-    private int x = 200;
-    private int y = 200;
     private Dir dir = Dir.DOWN;
     private boolean stop = true;
-    private GameModel gm = GameModel.getInstance();
     private boolean living = true;
     private Group group = Group.GOOD;
     private Rectangle ret = new Rectangle();
@@ -54,7 +51,7 @@ public class Tank extends GameObject {
 //        g.setColor(Color.YELLOW);
 //        g.fillRect(x, y, 50, 50);
         if (!living){
-            this.gm.getGameObjects().remove(this);
+            GameModel.getInstance().getGameObjects().remove(this);
         }
         Image image = null;
         switch (group){
