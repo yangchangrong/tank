@@ -16,7 +16,6 @@ public class Bullet extends GameObject {
     public static final int WIDTH = ResourceManager.bulletD.getWidth();
     public static final int HEIGHT = ResourceManager.bulletD.getHeight();
 
-    private  int x,y;
     private Dir dir;
     private boolean living = true;
     private GameModel gm = GameModel.getInstance();
@@ -79,6 +78,16 @@ public class Bullet extends GameObject {
         g.drawImage(image,x,y,null);
         move(g);
 
+    }
+
+    @Override
+    public int getWidth() {
+        return WIDTH;
+    }
+
+    @Override
+    public int getHeight() {
+        return HEIGHT;
     }
 
     /**

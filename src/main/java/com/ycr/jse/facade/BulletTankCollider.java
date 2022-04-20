@@ -32,7 +32,7 @@ public class BulletTankCollider implements Collider{
             //每课子弹die都创建爆炸
             int explodeX = tank.getX() + Tank.WIDTH/2 - Explode.WIDTH/2;
             int explodeY = tank.getY() + Tank.HEIGHT/2 - Explode.WIDTH/2;
-            bullet.getGm().getGameObjects().add(new Explode(explodeX,explodeY, bullet.getGm()));
+            bullet.getGm().getGameObjects().add(new Explode(explodeX,explodeY));
         }
     }
 }
