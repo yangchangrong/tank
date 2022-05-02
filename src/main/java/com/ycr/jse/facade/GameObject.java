@@ -1,11 +1,12 @@
 package com.ycr.jse.facade;
 
 import java.awt.*;
+import java.io.Serializable;
 
 /**
  * 所有的物体抽象
  */
-public abstract class GameObject {
+public abstract class GameObject implements Serializable {
 
     protected int x,y;
     /**

@@ -96,7 +96,14 @@ public class TankFrame extends Frame {
                 case KeyEvent.VK_SPACE:
                     //监听space键盘,press一下发射一课子弹
                     handleOnSpacePress();
-
+                    break;
+                case KeyEvent.VK_S:
+                    //存盘
+                    GameModel.getInstance().save();
+                    break;
+                case KeyEvent.VK_L:
+                    //存盘
+                    GameModel.getInstance().load();
                     break;
                 default:
                     break;

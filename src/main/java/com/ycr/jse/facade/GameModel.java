@@ -5,6 +5,7 @@ import com.ycr.jse.frame.Dir;
 import com.ycr.jse.responsibleChain.ColliderChain;
 
 import java.awt.*;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
 /**
  * 游戏内部逻辑统一对外的门面对象
  */
-public class GameModel {
+public class GameModel implements Serializable{
 
 
     //单例解耦
@@ -102,6 +103,58 @@ public class GameModel {
         for (int i = 0; i < gameObjects.size(); i++) {
             for (int j = i + 1; j < gameObjects.size(); j++) {
                colliderChain.collide(gameObjects.get(i),gameObjects.get(j));
+            }
+        }
+    }
+
+    /**
+     * 存盘:将GameModel中的所有对象存储在文件中
+     * 需要存储的对象需要实现Serializable接口
+     */
+    public void save(){
+        ObjectOutputStream objectOutputStream = null;
+        try {
+            File f = new File("D:\\downloadTest\\tank\\tank.data");
+            objectOutputStream = new ObjectOutputStream(new FileOutputStream(f));
+            objectOutputStream.writeObject(myTank);
+            objectOutputStream.writeObject(gameObjects);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (null != objectOutputStream){
+                try {
+                    objectOutputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+
+    }
+
+    /**
+     * 加载，从tank.data文件中将对象加载到内存中
+     * 注意读的顺序，要和写的顺序一致，因为写文件是至上而下的
+     */
+    public void load() {
+        ObjectInputStream objectInputStream = null;
+        try {
+            File f = new File("D:\\downloadTest\\tank\\tank.data");
+            objectInputStream = new ObjectInputStream(new FileInputStream(f));
+            myTank = (Tank) objectInputStream.readObject();
+            gameObjects = (List<GameObject>) objectInputStream.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            if (null != objectInputStream){
+                try {
+                    objectInputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
